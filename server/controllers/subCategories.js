@@ -1,3 +1,5 @@
+import mongoose from "mongoose";
+import Category from "../models/category.js";
 import SubCategory from "../models/subCategory.js";
 
 export const getSubCategories = async (_, res) => {
@@ -36,6 +38,11 @@ export const addSubCategory = async (req, res) => {
         subCategory: subCategory.toLowerCase(),
       });
       await newSubCategory.save();
+
+      // add subcategory to respective parent category
+      const category = await Category.findById(categoryId);
+      category.subCategories.push(newSubCategory._id);
+      await category.save();
 
       res.status(200).send({
         success: true,

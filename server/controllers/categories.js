@@ -2,7 +2,8 @@ import Category from "../models/category.js";
 
 export const getCategories = async (_, res) => {
   try {
-    const categories = await Category.find();
+    const categories = await Category.find().populate("subCategories").exec();
+
     res.status(200).send({ success: true, data: categories });
   } catch (error) {
     res.status(404).send({ success: false, message: error.message });
