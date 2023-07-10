@@ -2,7 +2,14 @@ import Category from "../models/category.js";
 
 export const getCategories = async (_, res) => {
   try {
-    const categories = await Category.find().populate("subCategories").exec();
+    const categories = await Category.find()
+      .populate({
+        path: "subCategories",
+        populate: {
+          path: "posts",
+        },
+      })
+      .exec();
 
     res.status(200).send({ success: true, data: categories });
   } catch (error) {

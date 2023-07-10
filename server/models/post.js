@@ -12,14 +12,6 @@ const postSchema = mongoose.Schema({
     type: String,
     required: true,
   },
-  richDescription: {
-    type: String,
-    default: "",
-  },
-  image: {
-    type: String,
-    default: "",
-  },
   categoryId: {
     type: String,
     required: true,
