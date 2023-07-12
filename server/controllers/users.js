@@ -34,9 +34,11 @@ export const signin = async (req, res) => {
       }
     );
 
-    res
-      .status(200)
-      .json({ success: true, message: "Signedin User", data: token });
+    res.status(200).json({
+      success: true,
+      message: "Signedin User",
+      data: { result: existingUser, token },
+    });
   } catch (e) {
     res.status(500).json({ success: false, message: "Something went wrong" });
   }
@@ -60,6 +62,7 @@ export const signup = async (req, res) => {
         .json({ success: false, message: "Passwords don't match" });
 
     const hashedPassword = await bcrypt.hash(password, 12);
+
     const result = await User.create({
       email,
       password: hashedPassword,
