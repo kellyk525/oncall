@@ -1,20 +1,22 @@
 import { State, Action, ActionTypes } from "../shared/types/storeTypes";
 
 export const getAuthDefaultState = () => {
+  const loggedInUser = localStorage.getItem("profile");
+  const parsedData = loggedInUser ? JSON.parse(loggedInUser).user : null;
+
   return {
-    userData: null,
+    userData: parsedData,
   };
 };
 
 export const authReducer = (state: State, action: Action): State => {
   switch (action.type) {
     case ActionTypes.AUTH:
-      const userData = action.payload;
       localStorage.setItem("profile", JSON.stringify({ ...action.payload }));
 
       return {
         ...state,
-        userData,
+        userData: action.payload.user,
       };
     case ActionTypes.LOGOUT:
       localStorage.removeItem("profile");

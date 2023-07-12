@@ -17,5 +17,8 @@ export type Category = {
 export type User = {
   firstName: string;
   lastName: string;
+  email: string;
   role: string;
+  password: string;
+  _id: string;
 };

@@ -11,7 +11,10 @@ export enum ActionTypes {
 
 export interface ActionA {
   type: ActionTypes.AUTH;
-  payload: User;
+  payload: {
+    user: User;
+    token: string;
+  };
 }
 
 export interface ActionB {

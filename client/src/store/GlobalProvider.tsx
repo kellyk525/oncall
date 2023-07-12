@@ -6,14 +6,19 @@ import { GlobalContext } from "./globalContext";
 import { ActionTypes } from "../shared/types/storeTypes";
 import { User } from "../shared/types/appTypes";
 
-const GlobalProvider: React.FC = () => {
+const GlobalProvider: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
   const [authData, authDispatchFn] = useReducer(
     authReducer,
     { userData: null },
     getAuthDefaultState
   );
 
-  const signinUser = (type: ActionTypes.AUTH, payload: User) => {
+  const signinUser = (
+    type: ActionTypes.AUTH,
+    payload: { user: User; token: string }
+  ) => {
     authDispatchFn({ type, payload });
   };
 
@@ -27,7 +32,11 @@ const GlobalProvider: React.FC = () => {
     logoutUser,
   };
 
-  return <GlobalContext.Provider value={contextValue}></GlobalContext.Provider>;
+  return (
+    <GlobalContext.Provider value={contextValue}>
+      {children}
+    </GlobalContext.Provider>
+  );
 };
 
 export default GlobalProvider;
