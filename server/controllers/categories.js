@@ -26,8 +26,8 @@ export const addCategory = async (req, res) => {
     });
 
     if (categoryData) {
-      res.status(200).send({
-        success: true,
+      res.status(400).send({
+        success: false,
         message: `This Category - ${category} already exists`,
       });
     } else {

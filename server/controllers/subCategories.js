@@ -20,7 +20,10 @@ export const addSubCategory = async (req, res) => {
 
   try {
     if (!mongoose.Types.ObjectId.isValid(categoryId))
-      return res.status(404).send("No Category with that id");
+      return res.status(404).send({
+        success: false,
+        message: `No category with that id`,
+      });
 
     const existingSubCategory = await SubCategory.findOne({
       categoryId: categoryId,
@@ -28,8 +31,8 @@ export const addSubCategory = async (req, res) => {
     });
 
     if (existingSubCategory) {
-      res.status(200).send({
-        success: true,
+      res.status(400).send({
+        success: false,
         message: `This SubCategory - ${subCategory} already exists for specified category`,
       });
     } else {

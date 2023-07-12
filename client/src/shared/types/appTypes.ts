@@ -5,11 +5,13 @@ export type Post = {
 };
 
 export type SubCategory = {
+  _id: string;
   subCategory: string;
   posts: Post[];
 };
 
 export type Category = {
+  _id: string;
   category: string;
   subCategories: SubCategory[];
 };
