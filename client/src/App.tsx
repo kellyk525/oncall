@@ -6,11 +6,12 @@ import Main from "./components/Main/Main";
 import Posts from "./components/Posts/Posts";
 import Post from "./components/Posts/Post/Post";
 import Auth from "./components/Auth/Auth";
+import Settings from "./components/Settings/Settings";
 import { Routes, Route } from "react-router-dom";
 
 function App() {
   return (
-    <div className="min-w-full h-screen bg-cyan-500 text-6xl">
+    <div className="text-6xl h-full">
       <SideNav />
       <Routes>
         <Route path="/" element={<Main />} />
@@ -18,6 +19,7 @@ function App() {
         <Route path="/posts/:postId/*" element={<Post />} />
         <Route path="/posts/new" element={<AddPost />} />
         <Route path="/admin" element={<Auth />} />
+        <Route path="/settings" element={<Settings />} />
       </Routes>
     </div>
   );

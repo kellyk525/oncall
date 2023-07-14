@@ -63,7 +63,7 @@ const FirstLevel: React.FC<{ category: Category }> = ({ category }) => {
           hasChildren() ? "cursor-pointer" : "cursor-auto"
         }`}
       >
-        <p className="font-semibold">{category.category}</p>
+        <p className="font-medium">{category.category}</p>
         {hasChildren() && (
           <span className="ml-1">{selected === "active" ? "-" : "+"}</span>
         )}
