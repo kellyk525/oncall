@@ -2,6 +2,10 @@ export type Post = {
   _id: string;
   title: string;
   description: string | TrustedHTML;
+  categoryId: string;
+  subCategoryId: string;
+  creatorId: string;
+  createdAt: Date;
 };
 
 export type SubCategory = {

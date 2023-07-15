@@ -163,6 +163,8 @@ module.exports = {
       fuchsia: colors.fuchsia,
       pink: colors.pink,
       rose: colors.rose,
+      modalOverlay: "rgba(57,57,57,0.2)",
+      background: "#EEEDEB",
     }),
     columns: {
       auto: "auto",
@@ -339,6 +341,11 @@ module.exports = {
         '"Courier New"',
         "monospace",
       ],
+      logo: ['"Bodoni Moda"', "serif"],
+      logo2: ['"Quattrocento Sans"', "sans-serif"],
+      text1: ["Hind Siliguri", "sans-serif"],
+      text2: ["Jost", "sans-serif"],
+      text3: ["Mulish", "sans-serif"],
     },
     fontSize: {
       xs: ["0.75rem", { lineHeight: "1rem" }],
