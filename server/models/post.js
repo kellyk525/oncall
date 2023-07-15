@@ -13,16 +13,23 @@ const postSchema = mongoose.Schema({
     required: true,
   },
   categoryId: {
-    type: String,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Category",
     required: true,
   },
   subCategoryId: {
-    type: String,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "SubCategory",
     required: true,
   },
   createdAt: {
     type: Date,
     default: Date.now,
+  },
+  creatorId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    required: true,
   },
 });
 

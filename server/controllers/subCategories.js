@@ -1,6 +1,7 @@
-import mongoose from "mongoose";
-import Category from "../models/category.js";
 import SubCategory from "../models/subCategory.js";
+import Category from "../models/category.js";
+import Post from "../models/post.js";
+import mongoose from "mongoose";
 
 export const getSubCategories = async (_, res) => {
   try {
@@ -55,5 +56,31 @@ export const addSubCategory = async (req, res) => {
     }
   } catch (error) {
     res.status(404).send({ success: false, message: error.message });
+  }
+};
+
+export const deleteSubCategory = async (req, res) => {
+  const { subCateogoryId } = req.params;
+  const { categoryId } = req.body;
+
+  if (!mongoose.Types.ObjectId.isValid(subCateogoryId))
+    return res
+      .status(404)
+      .send({ success: false, message: "No sub-category with that id" });
+
+  try {
+    const deleted = await SubCategory.findByIdAndRemove(subCateogoryId);
+
+    // delete posts that match ids in deleted.posts
+    await Post.deleteMany({ _id: { $in: deleted.posts } });
+    // update the subCategories array in respective category
+    await Category.update(
+      { _id: categoryId },
+      { $pull: { subCategories: subCateogoryId } }
+    );
+
+    res.status(200).send({ success: true, message: "Sub-category Deleted" });
+  } catch (e) {
+    res.status(500).send({ success: false, message: "Something went wrong" });
   }
 };

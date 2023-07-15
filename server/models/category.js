@@ -11,6 +11,12 @@ const categorySchema = mongoose.Schema({
       ref: "SubCategory",
     },
   ],
+  posts: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Post",
+    },
+  ],
 });
 
 const Category = mongoose.model("Category", categorySchema);
