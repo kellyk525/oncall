@@ -7,6 +7,7 @@ import { ActionTypes } from "../../shared/types/storeTypes";
 import Accordion from "../Accordion/Accordion";
 import { IoSettingsOutline } from "react-icons/io5";
 import useHttp from "../../hooks/useHttp";
+import { BsCollection } from "react-icons/bs";
 
 const SideNav: React.FC = () => {
   const [authProfile, setAuthProfile] = useState(
@@ -74,9 +75,14 @@ const SideNav: React.FC = () => {
                 <div className="font-medium mr-4">
                   Hello {userData.firstName}!
                 </div>
-                <Link to="/settings">
-                  <IoSettingsOutline size="16" />
-                </Link>
+                <div className="flex">
+                  <Link to="/collections" className="mr-2">
+                    <BsCollection size="15" />
+                  </Link>
+                  <Link to="/settings">
+                    <IoSettingsOutline size="16" />
+                  </Link>
+                </div>
               </div>
             ) : (
               <button
