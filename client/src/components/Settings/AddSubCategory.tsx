@@ -67,9 +67,12 @@ const AddSubCategory: React.FC = () => {
   };
 
   return (
-    <div>
-      <p className="text-base mb-4">Add a new Sub-Category:</p>
-      <form onSubmit={handleNewSubCategory} className="flex flex-col">
+    <div className="mb-6">
+      <p className="font-semibold mb-4">Add a new Sub-Category:</p>
+      <form
+        onSubmit={handleNewSubCategory}
+        className="flex flex-col bg-gray-200 p-4 rounded-lg"
+      >
         <div className="mb-4">
           <label>Pick a Category:</label>
           <select
@@ -101,7 +104,7 @@ const AddSubCategory: React.FC = () => {
         </div>
         <button
           type="submit"
-          className="bg-yellow-500 w-48 py-1 rounded hover:bg-yellow-300"
+          className="bg-white w-48 py-1 rounded-xl hover:bg-gray-50"
         >
           {isLoading ? (
             <PulseLoader

@@ -44,33 +44,44 @@ const DeleteCategory: React.FC = () => {
   }
 
   return (
-    <form onSubmit={handleDeleteCategory}>
-      <label>Pick a category to delete:</label>
-      <select onChange={handleCategorySelect}>
-        {categories.map((category, i) => (
-          <option
-            key={category._id}
-            id={category._id}
-            value={category.category}
-          >
-            {category.category}
-          </option>
-        ))}
-      </select>
-      <button type="submit">
-        {isLoading ? (
-          <PulseLoader
-            size={5}
-            color={"grey"}
-            loading={isLoading}
-            aria-label="Loading Spinner"
-          />
-        ) : (
-          "Delete category"
-        )}
-      </button>
-      {error && <div>{error}</div>}
-    </form>
+    <div>
+      <p className="font-semibold mb-4">Delete Category:</p>
+      <form
+        onSubmit={handleDeleteCategory}
+        className="bg-gray-200 p-4 rounded-lg"
+      >
+        <div className="mb-4">
+          <label>Pick a category to delete:</label>
+          <select onChange={handleCategorySelect} className="ml-2 p-1 rounded">
+            {categories.map((category, i) => (
+              <option
+                key={category._id}
+                id={category._id}
+                value={category.category}
+              >
+                {category.category}
+              </option>
+            ))}
+          </select>
+        </div>
+        <button
+          type="submit"
+          className="py-1 px-3 bg-white hover:bg-gray-50 rounded-2xl"
+        >
+          {isLoading ? (
+            <PulseLoader
+              size={5}
+              color={"grey"}
+              loading={isLoading}
+              aria-label="Loading Spinner"
+            />
+          ) : (
+            "Delete category"
+          )}
+        </button>
+        {error && <div>{error}</div>}
+      </form>
+    </div>
   );
 };
 

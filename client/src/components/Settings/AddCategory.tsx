@@ -25,8 +25,11 @@ const AddCategory: React.FC = () => {
 
   return (
     <div className="mb-6">
-      <p className="text-base mb-4">Add a new Category:</p>
-      <form onSubmit={handleNewCategory} className="flex flex-col">
+      <p className="font-semibold mb-4">Add a new Category:</p>
+      <form
+        onSubmit={handleNewCategory}
+        className="flex flex-col bg-gray-200 p-4 rounded-lg"
+      >
         <div className="mb-4">
           <label htmlFor="category">Category Name:</label>
           <input
@@ -38,7 +41,7 @@ const AddCategory: React.FC = () => {
         </div>
         <button
           type="submit"
-          className="bg-yellow-500 w-44 py-1 rounded hover:bg-yellow-300"
+          className="bg-white w-44 py-1 rounded-xl hover:bg-gray-50"
         >
           {isLoading ? (
             <PulseLoader
