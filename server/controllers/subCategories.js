@@ -74,7 +74,7 @@ export const deleteSubCategory = async (req, res) => {
     // delete posts that match ids in deleted.posts
     await Post.deleteMany({ _id: { $in: deleted.posts } });
     // update the subCategories array in respective category
-    await Category.update(
+    await Category.findOneAndUpdate(
       { _id: categoryId },
       { $pull: { subCategories: subCateogoryId } }
     );

@@ -8,6 +8,7 @@ import postRoutes from "./routes/posts.js";
 import categoryRoutes from "./routes/categories.js";
 import subCategoryRoutes from "./routes/subCategories.js";
 import authRoutes from "./routes/users.js";
+import collectionRoutes from "./routes/collections.js";
 
 const app = express();
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
@@ -20,6 +21,7 @@ app.use("/posts", postRoutes);
 app.use("/categories", categoryRoutes);
 app.use("/sub-categories", subCategoryRoutes);
 app.use("/auth", authRoutes);
+app.use("/collections", collectionRoutes);
 
 // https://www.mongodb.com/cloud/atlas
 // host our db on their cloud

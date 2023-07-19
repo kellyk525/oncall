@@ -30,6 +30,12 @@ const userSchema = mongoose.Schema({
       ref: "Post",
     },
   ],
+  collections: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Collection",
+    },
+  ],
 });
 
 const User = mongoose.model("User", userSchema);
