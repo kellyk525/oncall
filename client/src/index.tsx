@@ -5,6 +5,7 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter } from "react-router-dom";
 import GlobalProvider from "./store/GlobalProvider";
+import CollectionProvider from "./store/CollectionProvider";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -13,7 +14,9 @@ root.render(
   <React.StrictMode>
     <BrowserRouter>
       <GlobalProvider>
-        <App />
+        <CollectionProvider>
+          <App />
+        </CollectionProvider>
       </GlobalProvider>
     </BrowserRouter>
   </React.StrictMode>

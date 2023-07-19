@@ -7,6 +7,7 @@ import Posts from "./components/Posts/Posts";
 import Post from "./components/Posts/Post/Post";
 import Auth from "./components/Auth/Auth";
 import Settings from "./components/Settings/Settings";
+import Collections from "./components/Collections/Collections";
 import { Routes, Route } from "react-router-dom";
 
 function App() {
@@ -20,6 +21,7 @@ function App() {
         <Route path="/posts/new" element={<AddPost />} />
         <Route path="/admin" element={<Auth />} />
         <Route path="/settings" element={<Settings />} />
+        <Route path="/collections" element={<Collections />} />
       </Routes>
     </div>
   );
