@@ -1,7 +1,7 @@
 import React, { useEffect, useState, ChangeEvent, useContext } from "react";
-import useHttp from "../../hooks/useHttp";
-import { Category, SubCategory } from "../../shared/types/appTypes";
-import { GlobalContext } from "../../store/globalContext";
+import { Category, SubCategory } from "shared/types/appTypes";
+import { GlobalContext } from "store/globalContext";
+import useHttp from "hooks/useHttp";
 
 const Categories: React.FC = () => {
   const { categoryId, setCategoryId, subCategoryId, setSubCategoryId } =

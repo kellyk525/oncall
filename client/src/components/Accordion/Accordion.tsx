@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { Category, SubCategory } from "../../shared/types/appTypes";
+import { Category, SubCategory } from "shared/types/appTypes";
 
 const SecondLevel: React.FC<{ subCategory: SubCategory }> = ({
   subCategory,

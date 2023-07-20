@@ -1,9 +1,10 @@
 import React, { useContext } from "react";
-import { CollectionContext } from "../../store/collectionContext";
-import { PiTrash } from "react-icons/pi";
-import { GlobalContext } from "../../store/globalContext";
-import AddCollection from "../Settings/AddCollection";
 import { Link } from "react-router-dom";
+import { PiTrash } from "react-icons/pi";
+
+import { GlobalContext } from "store/globalContext";
+import { CollectionContext } from "store/collectionContext";
+import AddCollection from "components/Settings/AddCollection";
 
 const Collections: React.FC = () => {
   const {

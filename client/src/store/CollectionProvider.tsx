@@ -1,17 +1,17 @@
 import React, { useContext, useEffect, useReducer } from "react";
+import { GlobalContext } from "./globalContext";
 import { CollectionContext } from "./collectionContext";
 import {
   collectionReducer,
   getCollectionDefaultState,
-} from "../reducers/collectionReducer";
+} from "reducers/collectionReducer";
 import {
   fetchUserCollection,
   addPostToCollection,
   addCollection,
   removeCollection,
   removePostFromCollection,
-} from "../apis/collection";
-import { GlobalContext } from "./globalContext";
+} from "apis/collection";
 
 const CollectionProvider: React.FC<{
   children: React.ReactNode;

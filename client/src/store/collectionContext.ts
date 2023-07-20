@@ -1,6 +1,5 @@
 import React from "react";
-import { Collection } from "../shared/types/collectionTypes";
-import { CollectionAction } from "../shared/types/collectionTypes";
+import { Collection } from "shared/types/collectionTypes";
 
 export type CollectionContextObject = {
   collection: Collection[];

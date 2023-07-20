@@ -1,6 +1,6 @@
 import React, { FormEvent, useState } from "react";
-import useHttp from "../../hooks/useHttp";
 import PulseLoader from "react-spinners/PulseLoader";
+import useHttp from "hooks/useHttp";
 
 const AddCategory: React.FC = () => {
   const [category, setCategory] = useState("");

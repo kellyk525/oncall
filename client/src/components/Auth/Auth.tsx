@@ -1,7 +1,7 @@
 import React, { FormEvent, useContext, useState } from "react";
-import { ActionTypes } from "../../shared/types/storeTypes";
-import { GlobalContext } from "../../store/globalContext";
 import { useNavigate } from "react-router-dom";
+import { ActionTypes } from "shared/types/storeTypes";
+import { GlobalContext } from "store/globalContext";
 
 const Auth: React.FC = () => {
   const [userData, setUserData] = useState({

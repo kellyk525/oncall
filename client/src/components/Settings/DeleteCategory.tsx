@@ -5,9 +5,9 @@ import React, {
   useEffect,
   FormEvent,
 } from "react";
-import useHttp from "../../hooks/useHttp";
-import { GlobalContext } from "../../store/globalContext";
 import PulseLoader from "react-spinners/PulseLoader";
+import { GlobalContext } from "store/globalContext";
+import useHttp from "hooks/useHttp";
 
 const DeleteCategory: React.FC = () => {
   const { categories, deleteCategory } = useContext(GlobalContext);

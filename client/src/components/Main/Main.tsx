@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
-import moment from "moment";
 import { Link } from "react-router-dom";
+import moment from "moment";
 import { GlobalContext } from "store/globalContext";
 
 const Main: React.FC = () => {

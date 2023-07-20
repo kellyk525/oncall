@@ -2,8 +2,8 @@ import { Dispatch } from "react";
 import {
   CollectionAction,
   CollectionActionTypes,
-} from "../shared/types/collectionTypes";
-import { getUserSessionToken } from "../shared/utils/userData";
+} from "shared/types/collectionTypes";
+import { getUserSessionToken } from "shared/utils/userData";
 
 const URL = "http://localhost:8000";
 

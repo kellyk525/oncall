@@ -1,13 +1,7 @@
-import React, {
-  ChangeEvent,
-  FormEvent,
-  useCallback,
-  useEffect,
-  useState,
-} from "react";
-import useHttp from "../../hooks/useHttp";
-import { Category } from "../../shared/types/appTypes";
+import React, { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import PulseLoader from "react-spinners/PulseLoader";
+import { Category } from "shared/types/appTypes";
+import useHttp from "hooks/useHttp";
 
 const AddSubCategory: React.FC = () => {
   const [categoryId, setCategoryId] = useState("");

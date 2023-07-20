@@ -1,4 +1,4 @@
-import { State, Action, ActionTypes } from "../shared/types/storeTypes";
+import { State, Action, ActionTypes } from "shared/types/storeTypes";
 
 export const getAuthDefaultState = () => {
   const loggedInUser = localStorage.getItem("profile");

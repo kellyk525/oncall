@@ -1,9 +1,8 @@
-import { Post } from "../shared/types/appTypes";
 import {
   CollectionAction,
   CollectionState,
   CollectionActionTypes,
-} from "../shared/types/collectionTypes";
+} from "shared/types/collectionTypes";
 
 export const getCollectionDefaultState = (): CollectionState => {
   return {

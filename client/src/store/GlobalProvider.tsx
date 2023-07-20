@@ -1,11 +1,11 @@
 import React, { useReducer } from "react";
-import { authReducer, getAuthDefaultState } from "../reducers/authReducer";
-import { postsReducer, getPostsDefaultState } from "../reducers/postsReducer";
 import { GlobalContext } from "./globalContext";
+import { authReducer, getAuthDefaultState } from "reducers/authReducer";
+import { postsReducer, getPostsDefaultState } from "reducers/postsReducer";
 
 // Types
-import { ActionTypes } from "../shared/types/storeTypes";
-import { Category, User } from "../shared/types/appTypes";
+import { ActionTypes } from "shared/types/storeTypes";
+import { Category, User } from "shared/types/appTypes";
 
 const GlobalProvider: React.FC<{ children: React.ReactNode }> = ({
   children,

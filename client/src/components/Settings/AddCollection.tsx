@@ -1,7 +1,7 @@
 import React, { FormEvent, useContext, useState } from "react";
-import { CollectionContext } from "../../store/collectionContext";
-import { GlobalContext } from "../../store/globalContext";
 import PulseLoader from "react-spinners/PulseLoader";
+import { GlobalContext } from "store/globalContext";
+import { CollectionContext } from "store/collectionContext";
 
 const AddCollection: React.FC = () => {
   const [title, setTitle] = useState("");

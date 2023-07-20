@@ -1,6 +1,6 @@
 import React from "react";
-import { Category, User } from "../shared/types/appTypes";
-import { ActionTypes } from "../shared/types/storeTypes";
+import { Category, User } from "shared/types/appTypes";
+import { ActionTypes } from "shared/types/storeTypes";
 
 export type GlobalContextObject = {
   userData: User | null;

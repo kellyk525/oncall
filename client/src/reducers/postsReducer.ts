@@ -1,4 +1,4 @@
-import { Action, ActionTypes, PostsState } from "../shared/types/storeTypes";
+import { Action, ActionTypes, PostsState } from "shared/types/storeTypes";
 
 export const getPostsDefaultState = () => {
   return {
