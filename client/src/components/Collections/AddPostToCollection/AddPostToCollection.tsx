@@ -1,6 +1,6 @@
 import React, { ChangeEvent, useContext, useEffect, useState } from "react";
-import { CollectionContext } from "../../../store/collectionContext";
-import { GlobalContext } from "../../../store/globalContext";
+import { CollectionContext } from "store/collectionContext";
+import { GlobalContext } from "store/globalContext";
 import { BsFolderPlus } from "react-icons/bs";
 
 const AddPostToCollection: React.FC<{ postId: string }> = ({ postId }) => {

@@ -1,13 +1,14 @@
 import React, { useEffect, useState, useContext } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import { Category } from "../../shared/types/appTypes";
-import { GlobalContext } from "../../store/globalContext";
 import jwt_decode, { JwtPayload } from "jwt-decode";
-import { ActionTypes } from "../../shared/types/storeTypes";
-import Accordion from "../Accordion/Accordion";
 import { IoSettingsOutline } from "react-icons/io5";
-import useHttp from "../../hooks/useHttp";
 import { BsCollection } from "react-icons/bs";
+
+import useHttp from "hooks/useHttp";
+import { Category } from "shared/types/appTypes";
+import { ActionTypes } from "shared/types/storeTypes";
+import { GlobalContext } from "store/globalContext";
+import Accordion from "components/Accordion/Accordion";
 
 const SideNav: React.FC = () => {
   const [authProfile, setAuthProfile] = useState(
