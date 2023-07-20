@@ -2,6 +2,7 @@ import express from "express";
 import bodyParser from "body-parser";
 import mongoose from "mongoose";
 import cors from "cors";
+import dotenv from "dotenv";
 
 import s3Routes from "./routes/s3.js";
 import postRoutes from "./routes/posts.js";
@@ -9,6 +10,8 @@ import categoryRoutes from "./routes/categories.js";
 import subCategoryRoutes from "./routes/subCategories.js";
 import authRoutes from "./routes/users.js";
 import collectionRoutes from "./routes/collections.js";
+
+dotenv.config();
 
 const app = express();
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
@@ -25,12 +28,10 @@ app.use("/collections", collectionRoutes);
 
 // https://www.mongodb.com/cloud/atlas
 // host our db on their cloud
-const CONNECTION_URL =
-  "mongodb+srv://kellk1477:kelly123123@cluster0.uxlco7p.mongodb.net/?retryWrites=true&w=majority";
 const PORT = process.env.PORT || 8000;
 
 mongoose
-  .connect(CONNECTION_URL, {
+  .connect(process.env.CONNECTION_URL, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
