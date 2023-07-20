@@ -60,7 +60,7 @@ const Post: React.FC = () => {
     // params.append("postId", postId as string);
     const request = {
       headers: {},
-      url: `https://kellyoncall.onrender.com/${postId}`,
+      url: `https://kellyoncall.onrender.com/posts/${postId}`,
     };
 
     sendRequest(request, handleFetchedPost);

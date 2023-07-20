@@ -61,7 +61,7 @@ const Collections: React.FC = () => {
                       className="p-2 hover:bg-gray-50 first:rounded-t-lg last:rounded-b-lg"
                     >
                       <Link
-                        to={`http://localhost:3000/posts/${post._id}`}
+                        to={`https://kellyoncall.live/posts/${post._id}`}
                         className="flex justify-between"
                       >
                         <div>{post.title}</div>
