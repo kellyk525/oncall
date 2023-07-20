@@ -25,7 +25,7 @@ const DeleteCategory: React.FC = () => {
     e.preventDefault();
     const request = {
       method: "DELETE",
-      url: `http://localhost:8000/categories/${selectedId}`,
+      url: `https://kellyoncall.onrender.com/categories/${selectedId}`,
       headers: {},
     };
 

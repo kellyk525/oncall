@@ -32,15 +32,18 @@ const Post: React.FC = () => {
         `Bearer ${JSON.parse(localStorage.getItem("profile") as string).token}`
       );
 
-      const resp = await fetch(`http://localhost:8000/posts/${postId}`, {
-        method: "DELETE",
-        headers,
-        body: JSON.stringify({
-          categoryId: post?.categoryId,
-          subCategoryId: post?.subCategoryId,
-          creatorId: post?.creatorId,
-        }),
-      });
+      const resp = await fetch(
+        `https://kellyoncall.onrender.com/posts/${postId}`,
+        {
+          method: "DELETE",
+          headers,
+          body: JSON.stringify({
+            categoryId: post?.categoryId,
+            subCategoryId: post?.subCategoryId,
+            creatorId: post?.creatorId,
+          }),
+        }
+      );
 
       navigate("/");
     } catch (e) {
@@ -57,7 +60,7 @@ const Post: React.FC = () => {
     // params.append("postId", postId as string);
     const request = {
       headers: {},
-      url: `http://localhost:8000/posts/${postId}`,
+      url: `https://kellyoncall.onrender.com/${postId}`,
     };
 
     sendRequest(request, handleFetchedPost);

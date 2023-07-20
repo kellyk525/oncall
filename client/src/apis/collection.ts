@@ -5,7 +5,7 @@ import {
 } from "shared/types/collectionTypes";
 import { getUserSessionToken } from "shared/utils/userData";
 
-const URL = "http://localhost:8000";
+const URL = "https://kellyoncall.onrender.com";
 
 type RequestBody = {
   [key: string]: any;

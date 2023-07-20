@@ -24,7 +24,7 @@ const AddSubCategory: React.FC = () => {
     headers.append("Content-Type", "application/json");
 
     const request = {
-      url: "http://localhost:8000/categories",
+      url: "https://kellyoncall.onrender.com/categories",
       headers,
     };
 
@@ -41,7 +41,7 @@ const AddSubCategory: React.FC = () => {
     headers.append("Content-Type", "application/json");
     console.log(categoryId, subCategory);
     const request = {
-      url: "http://localhost:8000/sub-categories/add-subcategory",
+      url: "https://kellyoncall.onrender.com/sub-categories/add-subcategory",
       method: "POST",
       headers,
       body: {

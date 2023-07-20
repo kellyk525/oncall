@@ -59,17 +59,20 @@ const AddPost: React.FC = () => {
         `Bearer ${JSON.parse(localStorage.getItem("profile") as string).token}`
       );
 
-      const newPost = await fetch("http://localhost:8000/posts/add-post", {
-        method: "POST",
-        headers,
-        body: JSON.stringify({
-          title: postInfo.title,
-          description: postInfo.description,
-          categoryId: categoryId,
-          subCategoryId: subCategoryId,
-          creatorId: userData?._id,
-        }),
-      });
+      const newPost = await fetch(
+        "https://kellyoncall.onrender.com/posts/add-post",
+        {
+          method: "POST",
+          headers,
+          body: JSON.stringify({
+            title: postInfo.title,
+            description: postInfo.description,
+            categoryId: categoryId,
+            subCategoryId: subCategoryId,
+            creatorId: userData?._id,
+          }),
+        }
+      );
     } catch (error) {}
   };
 

@@ -12,7 +12,7 @@ const AddCategory: React.FC = () => {
     headers.append("Content-Type", "application/json");
 
     const request = {
-      url: "http://localhost:8000/categories/add-category",
+      url: "https://kellyoncall.onrender.com/categories/add-category",
       method: "POST",
       headers,
       body: {

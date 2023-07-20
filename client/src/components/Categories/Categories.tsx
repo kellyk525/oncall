@@ -31,7 +31,7 @@ const Categories: React.FC = () => {
     headers.append("Content-Type", "application/json");
 
     const request = {
-      url: "http://localhost:8000/categories",
+      url: "https://kellyoncall.onrender.com/categories",
       headers,
     };
 

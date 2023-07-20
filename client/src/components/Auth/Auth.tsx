@@ -17,16 +17,19 @@ const Auth: React.FC = () => {
 
   const handleSignIn = async (formData: FormData) => {
     try {
-      const userData = await fetch("http://localhost:8000/auth/signin", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email: formData.get("email"),
-          password: formData.get("password"),
-        }),
-      }).then((res) => res.json());
+      const userData = await fetch(
+        "https://kellyoncall.onrender.com/auth/signin",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email: formData.get("email"),
+            password: formData.get("password"),
+          }),
+        }
+      ).then((res) => res.json());
 
       const userInfo = userData.data.result;
       const userSessionToken = userData.data.token;
@@ -45,20 +48,23 @@ const Auth: React.FC = () => {
 
   const handleSignUp = async (formData: FormData) => {
     try {
-      const userData = await fetch("http://localhost:8000/auth/signup", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email: formData.get("email"),
-          firstName: formData.get("firstName"),
-          lastName: formData.get("lastName"),
-          password: formData.get("password"),
-          confirmPassword: formData.get("confirmPassword"),
-          role: formData.get("role"),
-        }),
-      }).then((res) => res.json());
+      const userData = await fetch(
+        "https://kellyoncall.onrender.com/auth/signup",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email: formData.get("email"),
+            firstName: formData.get("firstName"),
+            lastName: formData.get("lastName"),
+            password: formData.get("password"),
+            confirmPassword: formData.get("confirmPassword"),
+            role: formData.get("role"),
+          }),
+        }
+      ).then((res) => res.json());
 
       const userInfo = userData.data.result;
       const userSessionToken = userData.data.token;
