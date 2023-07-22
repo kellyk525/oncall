@@ -10,6 +10,7 @@ export const getCategories = async (_, res) => {
         path: "subCategories",
         populate: {
           path: "posts",
+          select: { _id: 1, title: 1, creatorId: 1, createdAt: 1 },
         },
       })
       .exec();
