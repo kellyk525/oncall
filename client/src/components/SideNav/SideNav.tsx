@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from "react";
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import jwt_decode, { JwtPayload } from "jwt-decode";
 import { IoSettingsOutline } from "react-icons/io5";
 import { BsCollection } from "react-icons/bs";
@@ -17,7 +17,6 @@ const SideNav: React.FC = () => {
   const { userData, logoutUser, fetchCategories, categories } =
     useContext(GlobalContext);
   const navigate = useNavigate();
-  const location = useLocation();
   const { isLoading, error, sendRequest } = useHttp();
 
   const logout = () => {
@@ -34,7 +33,7 @@ const SideNav: React.FC = () => {
         logout();
       }
     }
-  }, [location]);
+  }, []);
 
   const handleFetchedCategories = (response: { data: Category[] }) => {
     fetchCategories(response.data);
