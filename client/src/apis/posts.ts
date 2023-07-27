@@ -123,16 +123,21 @@ export const removePost = async (
         postId,
       },
     });
+    categoryDispatchFn({
+      type: CategoryActionTypes.START_REMOVE_POST,
+      payload: false,
+    });
+    window.location.assign("https://kellyoncall.live");
   } else {
     categoryDispatchFn({
       type: CategoryActionTypes.REMOVE_POST_ERROR,
       payload: jsonResponse.message,
     });
+    categoryDispatchFn({
+      type: CategoryActionTypes.START_REMOVE_POST,
+      payload: false,
+    });
   }
-  categoryDispatchFn({
-    type: CategoryActionTypes.START_REMOVE_POST,
-    payload: false,
-  });
 };
 
 export const updatePost = async (

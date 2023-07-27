@@ -1,26 +1,15 @@
-import React, { FormEvent, useState } from "react";
+import React, { FormEvent, useContext, useEffect, useState } from "react";
 import PulseLoader from "react-spinners/PulseLoader";
-import useHttp from "hooks/useHttp";
+import { GlobalContext } from "store/globalContext";
 
 const AddCategory: React.FC = () => {
   const [category, setCategory] = useState("");
-  const { isLoading, error, sendRequest } = useHttp();
+  const { addCategory, addingCategory, addingCategoryError } =
+    useContext(GlobalContext);
 
   const handleNewCategory = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const headers = new Headers();
-    headers.append("Content-Type", "application/json");
-
-    const request = {
-      url: "https://kellyoncall.onrender.com/categories/add-category",
-      method: "POST",
-      headers,
-      body: {
-        category,
-      },
-    };
-
-    sendRequest(request, () => {});
+    addCategory(category);
   };
 
   return (
@@ -43,19 +32,19 @@ const AddCategory: React.FC = () => {
           type="submit"
           className="bg-white w-44 py-1 rounded-xl hover:bg-gray-50"
         >
-          {isLoading ? (
+          {addingCategory ? (
             <PulseLoader
               size={5}
               color={"grey"}
-              loading={isLoading}
-              aria-label="Loading Spinner"
+              loading={addingCategory}
+              aria-label="Adding New Category"
             />
           ) : (
             "Submit a new category"
           )}
         </button>
       </form>
-      {error && <div>{error}</div>}
+      {addingCategoryError && <div>{addingCategoryError}</div>}
     </div>
   );
 };

@@ -7,12 +7,15 @@ import React, {
 } from "react";
 import PulseLoader from "react-spinners/PulseLoader";
 import { GlobalContext } from "store/globalContext";
-import useHttp from "hooks/useHttp";
 
 const DeleteCategory: React.FC = () => {
-  const { categories, deleteCategory } = useContext(GlobalContext);
+  const {
+    categories,
+    removeCategory,
+    removingCategory,
+    removingCategoryError,
+  } = useContext(GlobalContext);
   const [selectedId, setSelectedId] = useState<string | null>(null);
-  const { isLoading, error, sendRequest } = useHttp();
 
   const handleCategorySelect = (e: ChangeEvent<HTMLSelectElement>) => {
     const index = e.target.selectedIndex;
@@ -23,14 +26,7 @@ const DeleteCategory: React.FC = () => {
 
   const handleDeleteCategory = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const request = {
-      method: "DELETE",
-      url: `https://kellyoncall.onrender.com/categories/${selectedId}`,
-      headers: {},
-    };
-
-    sendRequest(request, () => {});
-    deleteCategory(selectedId as string);
+    removeCategory(selectedId as string);
   };
 
   useEffect(() => {
@@ -39,12 +35,8 @@ const DeleteCategory: React.FC = () => {
     }
   }, [categories]);
 
-  if (categories.length < 1) {
-    return <div>No categories to show.</div>;
-  }
-
   return (
-    <div>
+    <div className="mb-4">
       <p className="font-semibold mb-4">Delete Category:</p>
       <form
         onSubmit={handleDeleteCategory}
@@ -68,19 +60,19 @@ const DeleteCategory: React.FC = () => {
           type="submit"
           className="py-1 px-3 bg-white hover:bg-gray-50 rounded-2xl"
         >
-          {isLoading ? (
+          {removingCategory ? (
             <PulseLoader
               size={5}
               color={"grey"}
-              loading={isLoading}
-              aria-label="Loading Spinner"
+              loading={removingCategory}
+              aria-label="Deleting Category"
             />
           ) : (
             "Delete category"
           )}
         </button>
-        {error && <div>{error}</div>}
       </form>
+      {removingCategoryError && <div>{removingCategoryError}</div>}
     </div>
   );
 };

@@ -1,16 +1,18 @@
 import React, { useEffect, useState, ChangeEvent, useContext } from "react";
 import { Category, SubCategory } from "shared/types/appTypes";
 import { GlobalContext } from "store/globalContext";
-import useHttp from "hooks/useHttp";
 
 const Categories: React.FC = () => {
-  const { categoryId, setCategoryId, subCategoryId, setSubCategoryId } =
-    useContext(GlobalContext);
-  const [categories, setCategories] = useState<Category[]>([]);
+  const {
+    categories,
+    categoryId,
+    setCategoryId,
+    subCategoryId,
+    setSubCategoryId,
+  } = useContext(GlobalContext);
   const [mappedCategories, setMappedCategories] = useState<{
     [key: string]: SubCategory[];
   }>({});
-  const { isLoading, error, sendRequest } = useHttp();
 
   const mapCategoriesToSubCategories = (categories: Category[]) => {
     const mappedCategories: { [key: string]: SubCategory[] } = {};
@@ -21,29 +23,9 @@ const Categories: React.FC = () => {
     setMappedCategories(mappedCategories);
   };
 
-  const handleFetchedCategories = (response: { data: Category[] }) => {
-    setCategories(response.data);
-    mapCategoriesToSubCategories(response.data);
-  };
-
-  const getCategories = () => {
-    const headers = new Headers();
-    headers.append("Content-Type", "application/json");
-
-    const request = {
-      url: "https://kellyoncall.onrender.com/categories",
-      headers,
-    };
-
-    sendRequest(request, handleFetchedCategories);
-  };
-
   useEffect(() => {
-    getCategories();
-  }, []);
-
-  useEffect(() => {
-    if (categories.length) {
+    if (categories.length > 0) {
+      mapCategoriesToSubCategories(categories);
       setCategoryId(categories[0]._id);
       setSubCategoryId(categories[0].subCategories[0]?._id);
     }
@@ -81,8 +63,6 @@ const Categories: React.FC = () => {
       </option>
     ));
   };
-
-  if (isLoading) return <div>loading...</div>;
 
   return (
     <div className="flex flex-col">

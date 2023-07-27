@@ -1,56 +1,32 @@
-import React, { ChangeEvent, FormEvent, useEffect, useState } from "react";
+import React, {
+  ChangeEvent,
+  FormEvent,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import PulseLoader from "react-spinners/PulseLoader";
-import { Category } from "shared/types/appTypes";
-import useHttp from "hooks/useHttp";
+import { GlobalContext } from "store/globalContext";
 
 const AddSubCategory: React.FC = () => {
   const [categoryId, setCategoryId] = useState("");
-  const [categories, setCategories] = useState<Category[]>([]);
   const [subCategory, setSubCategory] = useState("");
-  const { isLoading, error, sendRequest } = useHttp();
   const {
-    isLoading: isCategoryLoading,
-    error: categoryError,
-    sendRequest: fetchCategories,
-  } = useHttp();
-
-  const handleFetchedCategories = (response: { data: Category[] }) => {
-    setCategories(response.data);
-    setCategoryId(response.data[0]._id);
-  };
-
-  const getCategories = () => {
-    const headers = new Headers();
-    headers.append("Content-Type", "application/json");
-
-    const request = {
-      url: "https://kellyoncall.onrender.com/categories",
-      headers,
-    };
-
-    fetchCategories(request, handleFetchedCategories);
-  };
+    categories,
+    addSubCategory,
+    addingSubCategory,
+    addingSubCategoryError,
+  } = useContext(GlobalContext);
 
   useEffect(() => {
-    getCategories();
-  }, []);
+    if (categories.length > 0) {
+      setCategoryId(categories[0]._id);
+    }
+  }, [categories]);
 
   const handleNewSubCategory = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const headers = new Headers();
-    headers.append("Content-Type", "application/json");
-    console.log(categoryId, subCategory);
-    const request = {
-      url: "https://kellyoncall.onrender.com/sub-categories/add-subcategory",
-      method: "POST",
-      headers,
-      body: {
-        categoryId,
-        subCategory,
-      },
-    };
-
-    sendRequest(request, () => {});
+    addSubCategory(categoryId, subCategory);
   };
 
   const handleCategorySelect = (e: ChangeEvent<HTMLSelectElement>) => {
@@ -100,19 +76,19 @@ const AddSubCategory: React.FC = () => {
           type="submit"
           className="bg-white w-48 py-1 rounded-xl hover:bg-gray-50"
         >
-          {isLoading ? (
+          {addingSubCategory ? (
             <PulseLoader
               size={5}
               color={"grey"}
-              loading={isLoading}
-              aria-label="Loading Spinner"
+              loading={addingSubCategory}
+              aria-label="Adding New SubCategory"
             />
           ) : (
             "Submit new sub-category"
           )}
         </button>
       </form>
-      {error && <div>{error}</div>}
+      {addingSubCategoryError && <div>{addingSubCategoryError}</div>}
     </div>
   );
 };

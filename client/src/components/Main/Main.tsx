@@ -1,14 +1,15 @@
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import moment from "moment";
+import PulseLoader from "react-spinners/PulseLoader";
 import { GlobalContext } from "store/globalContext";
 
 const Main: React.FC = () => {
-  const { categories } = useContext(GlobalContext);
+  const { categories, loadingCategories } = useContext(GlobalContext);
 
   return (
     <div className="bg-background font-text1 font-medium ml-60 max-w-5xl min-h-screen p-6">
-      {categories.length > 0 ? (
+      {!loadingCategories && categories.length > 0 ? (
         <>
           {categories.map((category) => (
             <div key={category._id} className="mb-6 border-b">
@@ -40,7 +41,15 @@ const Main: React.FC = () => {
           ))}
         </>
       ) : (
-        <div className="text-base">Loading Posts...</div>
+        <div className="text-sm flex items-center font-text1">
+          <p className="mr-2">Loading Posts</p>
+          <PulseLoader
+            size={5}
+            color={"grey"}
+            loading={loadingCategories}
+            aria-label="Adding New Post"
+          />
+        </div>
       )}
     </div>
   );

@@ -33,9 +33,7 @@ const Collections: React.FC = () => {
   return (
     <div className="ml-60 max-w-5xl h-screen bg-background text-sm p-3 px-6">
       <AddCollection />
-      {isCollectionLoading ? (
-        <div>Loading your collections...</div>
-      ) : (
+      {!isCollectionLoading && collection.length > 0 ? (
         <div className="mt-5">
           <p className="font-semibold mb-3">Collections:</p>
           {collection.map((item) => (
@@ -56,29 +54,27 @@ const Collections: React.FC = () => {
               <div className="px-2 py-2 bg-white divide-y divide-slate-200 rounded-lg">
                 {item.posts.length ? (
                   item.posts.map((post) => (
-                    <div
-                      key={post._id}
-                      className="p-2 hover:bg-gray-50 first:rounded-t-lg last:rounded-b-lg"
-                    >
+                    <div key={post._id} className="flex">
                       <Link
                         to={`https://kellyoncall.live/posts/${post._id}`}
-                        className="flex justify-between"
+                        className="flex-1 p-2 hover:bg-gray-50 rounded"
                       >
-                        <div>{post.title}</div>
-                        {userData ? (
-                          <button
-                            onClick={() =>
-                              removePostFromCollection(
-                                item._id,
-                                post._id,
-                                userData._id
-                              )
-                            }
-                          >
-                            <PiTrash />
-                          </button>
-                        ) : null}
+                        {post.title}
                       </Link>
+                      {userData ? (
+                        <button
+                          className="p-1 px-2 hover:bg-rose-100 rounded"
+                          onClick={() =>
+                            removePostFromCollection(
+                              item._id,
+                              post._id,
+                              userData._id
+                            )
+                          }
+                        >
+                          <PiTrash />
+                        </button>
+                      ) : null}
                     </div>
                   ))
                 ) : (
@@ -88,6 +84,8 @@ const Collections: React.FC = () => {
             </div>
           ))}
         </div>
+      ) : (
+        <div>Loading your collections...</div>
       )}
       {fetchCollectionError && <div>{fetchCollectionError}</div>}
       {removingCollectionError && <div>{removingCollectionError}</div>}

@@ -4,7 +4,9 @@ import React, {
   useState,
   useMemo,
   ChangeEvent,
+  FormEvent,
 } from "react";
+import PulseLoader from "react-spinners/PulseLoader";
 import { IoIosCloseCircleOutline } from "react-icons/io";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
@@ -24,7 +26,7 @@ const UpdatePostModal: React.FC<{ children: React.ReactNode }> = ({
       className="w-full h-screen fixed top-0 left-0 flex justify-center items-center bg-gray-500/[.3]"
     >
       <div
-        className="w-fit max-w-4xl bg-background p-10 rounded-lg"
+        className="w-fit max-w-4xl max-h-modal overflow-auto bg-background p-10 rounded-lg"
         onClick={(e) => e.stopPropagation()}
       >
         {children}
@@ -34,7 +36,13 @@ const UpdatePostModal: React.FC<{ children: React.ReactNode }> = ({
 };
 
 const UpdatePost: React.FC<{ post: Post }> = ({ post }) => {
-  const { handleUpdatePostModal } = useContext(GlobalContext);
+  const {
+    userData,
+    updatePost,
+    updatingPost,
+    updatingPostError,
+    handleUpdatePostModal,
+  } = useContext(GlobalContext);
   const quillRef = useRef<ReactQuill>(null);
   const [postInfo, setPostInfo] = useState({
     id: post._id,
@@ -61,6 +69,17 @@ const UpdatePost: React.FC<{ post: Post }> = ({ post }) => {
     });
   };
 
+  const handlePostUpdate = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const updatedPost = {
+      ...post,
+      title: postInfo.title,
+      description: postInfo.description,
+    };
+
+    updatePost(updatedPost, userData?._id as string);
+  };
+
   const modules = useMemo(
     () => ({
       toolbar: {
@@ -79,7 +98,7 @@ const UpdatePost: React.FC<{ post: Post }> = ({ post }) => {
       >
         <IoIosCloseCircleOutline size={20} />
       </button>
-      <form className="text-sm">
+      <form className="text-sm" onSubmit={handlePostUpdate}>
         <div className="mt-4 mb-3">
           <label htmlFor="title" className="mr-3">
             Title:
@@ -109,9 +128,19 @@ const UpdatePost: React.FC<{ post: Post }> = ({ post }) => {
           type="submit"
           className="mt-3 p-2 px-3 bg-white hover:bg-gray-50 rounded-xl"
         >
-          Update Post
+          {updatingPost ? (
+            <PulseLoader
+              size={5}
+              color={"grey"}
+              loading={updatingPost}
+              aria-label="Adding New Post"
+            />
+          ) : (
+            "Update Post"
+          )}
         </button>
       </form>
+      {updatingPostError && <div>{updatingPostError}</div>}
     </UpdatePostModal>
   );
 };

@@ -6,6 +6,7 @@ import React, {
   useMemo,
   useContext,
 } from "react";
+import PulseLoader from "react-spinners/PulseLoader";
 import ReactQuill from "react-quill";
 import hljs from "highlight.js";
 import "react-quill/dist/quill.snow.css";
@@ -24,7 +25,14 @@ const AddPost: React.FC = () => {
     description: "",
   });
   const quillRef = useRef<ReactQuill>(null);
-  const { categoryId, subCategoryId, userData } = useContext(GlobalContext);
+  const {
+    categoryId,
+    subCategoryId,
+    userData,
+    addPost,
+    addingPost,
+    addingPostError,
+  } = useContext(GlobalContext);
   hljs.configure({ languages: ["javascript", "typescript", "html"] });
 
   const handleTitleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -48,32 +56,15 @@ const AddPost: React.FC = () => {
 
   const handlePostCreation = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
-    try {
-      // const form = e.target as HTMLFormElement;
-      // const formData = new FormData(form);
-      const headers = new Headers();
-      headers.append("Content-Type", "application/json");
-      headers.append(
-        "Authorization",
-        `Bearer ${JSON.parse(localStorage.getItem("profile") as string).token}`
-      );
-
-      const newPost = await fetch(
-        "https://kellyoncall.onrender.com/posts/add-post",
-        {
-          method: "POST",
-          headers,
-          body: JSON.stringify({
-            title: postInfo.title,
-            description: postInfo.description,
-            categoryId: categoryId,
-            subCategoryId: subCategoryId,
-            creatorId: userData?._id,
-          }),
-        }
-      );
-    } catch (error) {}
+    // const form = e.target as HTMLFormElement;
+    // const formData = new FormData(form);
+    addPost(
+      categoryId as string,
+      subCategoryId as string,
+      postInfo.title,
+      postInfo.description,
+      userData?._id as string
+    );
   };
 
   const imageHandler = () => {
@@ -172,9 +163,19 @@ const AddPost: React.FC = () => {
           className="bg-black text-white p-2 px-3 rounded-lg hover:bg-zinc-800 mt-2"
           type="submit"
         >
-          Submit Post
+          {addingPost ? (
+            <PulseLoader
+              size={5}
+              color={"grey"}
+              loading={addingPost}
+              aria-label="Adding New Post"
+            />
+          ) : (
+            "Submit Post"
+          )}
         </button>
       </form>
+      {addingPostError && <div>{addingPostError}</div>}
     </div>
   );
 };

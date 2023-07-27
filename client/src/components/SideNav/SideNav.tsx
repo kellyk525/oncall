@@ -1,11 +1,10 @@
 import React, { useEffect, useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import jwt_decode, { JwtPayload } from "jwt-decode";
+import PulseLoader from "react-spinners/PulseLoader";
 import { IoSettingsOutline } from "react-icons/io5";
 import { BsCollection } from "react-icons/bs";
 
-import useHttp from "hooks/useHttp";
-import { Category } from "shared/types/appTypes";
 import { ActionTypes } from "shared/types/storeTypes";
 import { GlobalContext } from "store/globalContext";
 import Accordion from "components/Accordion/Accordion";
@@ -14,10 +13,15 @@ const SideNav: React.FC = () => {
   const [authProfile, setAuthProfile] = useState(
     JSON.parse(localStorage.getItem("profile") as string)
   );
-  const { userData, logoutUser, fetchCategories, categories } =
-    useContext(GlobalContext);
+  const {
+    userData,
+    logoutUser,
+    fetchCategories,
+    categories,
+    loadingCategories,
+    fetchCategoriesError,
+  } = useContext(GlobalContext);
   const navigate = useNavigate();
-  const { isLoading, error, sendRequest } = useHttp();
 
   const logout = () => {
     logoutUser(ActionTypes.LOGOUT);
@@ -35,29 +39,13 @@ const SideNav: React.FC = () => {
     }
   }, []);
 
-  const handleFetchedCategories = (response: { data: Category[] }) => {
-    fetchCategories(response.data);
-  };
-
-  const getCategories = async () => {
-    const headers = new Headers();
-    headers.append("Content-Type", "application/json");
-
-    const request = {
-      url: "https://kellyoncall.onrender.com/categories",
-      headers,
-    };
-
-    sendRequest(request, handleFetchedCategories);
-  };
-
   useEffect(() => {
-    getCategories();
+    fetchCategories();
   }, []);
 
   return (
     <div className="h-screen fixed top-0 left-0 w-60 p-6 max-w-xs flex flex-col justify-between text-sm bg-white font-text1">
-      {categories.length > 0 ? (
+      {!loadingCategories && categories.length > 0 ? (
         <>
           <div>
             <Link
@@ -111,8 +99,16 @@ const SideNav: React.FC = () => {
           </div>
         </>
       ) : (
-        <div>Loading...</div>
+        <div>
+          <PulseLoader
+            size={5}
+            color={"grey"}
+            loading={loadingCategories}
+            aria-label="Loading Categories"
+          />
+        </div>
       )}
+      {fetchCategoriesError && <div>{fetchCategoriesError}</div>}
     </div>
   );
 };

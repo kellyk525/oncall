@@ -1,73 +1,45 @@
-import React, { useEffect, useState, useContext, useRef } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import React, { useEffect, useContext } from "react";
+import PulseLoader from "react-spinners/PulseLoader";
+import { useParams } from "react-router-dom";
 import { FiEdit3 } from "react-icons/fi";
 import { PiTrash } from "react-icons/pi";
 import moment from "moment";
 import hljs from "highlight.js";
 import "highlight.js/styles/obsidian.css";
 
-import useHttp from "hooks/useHttp";
 import { GlobalContext } from "store/globalContext";
 import { ActionTypes } from "shared/types/storeTypes";
-import { Post as PostType } from "shared/types/appTypes";
 import UpdatePost from "components/TextEditor/UpdatePost/UpdatePost";
 import AddPostToCollection from "components/Collections/AddPostToCollection/AddPostToCollection";
 
 const Post: React.FC = () => {
   let { postId } = useParams();
-  const navigate = useNavigate();
-  const { isLoading, error, sendRequest } = useHttp();
-  const [post, setPost] = useState<PostType | null>(null);
   const { openUpdatePostModal, handleUpdatePostModal } =
     useContext(GlobalContext);
-  const { userData } = useContext(GlobalContext);
-  const postRef = useRef();
+  const {
+    userData,
+    post,
+    fetchPost,
+    fetchingPost,
+    fetchingPostError,
+    removePost,
+    removingPost,
+    removingPostError,
+  } = useContext(GlobalContext);
 
   const handlePostDeletion = async () => {
-    try {
-      const headers = new Headers();
-      headers.append("Content-Type", "application/json");
-      headers.append(
-        "Authorization",
-        `Bearer ${JSON.parse(localStorage.getItem("profile") as string).token}`
-      );
-
-      const resp = await fetch(
-        `https://kellyoncall.onrender.com/posts/${postId}`,
-        {
-          method: "DELETE",
-          headers,
-          body: JSON.stringify({
-            categoryId: post?.categoryId,
-            subCategoryId: post?.subCategoryId,
-            creatorId: post?.creatorId,
-          }),
-        }
-      );
-
-      navigate("/");
-    } catch (e) {
-      console.log(e);
-    }
-  };
-
-  const handleFetchedPost = (response: { data: PostType }) => {
-    setPost(response.data);
-  };
-
-  const fetchPost = async (postId: string) => {
-    // const params = new URLSearchParams();
-    // params.append("postId", postId as string);
-    const request = {
-      headers: {},
-      url: `https://kellyoncall.onrender.com/posts/${postId}`,
-    };
-
-    sendRequest(request, handleFetchedPost);
+    removePost(
+      post?.categoryId as string,
+      post?.subCategoryId as string,
+      postId as string,
+      userData?._id as string
+    );
   };
 
   useEffect(() => {
-    fetchPost(postId as string);
+    if (postId) {
+      fetchPost(postId);
+    }
   }, [postId]);
 
   useEffect(() => {
@@ -81,8 +53,7 @@ const Post: React.FC = () => {
 
   return (
     <main className="	ml-60 bg-background text-base p-6 max-w-5xl min-h-screen font-text2">
-      {isLoading && <div>Loading ...</div>}
-      {post && (
+      {!fetchingPost && post ? (
         <>
           <div className="mb-10 flex items-center justify-between">
             <div className="flex items-center">
@@ -104,7 +75,18 @@ const Post: React.FC = () => {
                   className="flex items-center rounded bg-red-400 text-white p-2 text-sm"
                   onClick={handlePostDeletion}
                 >
-                  <div className="mr-2">Delete Post</div>
+                  <div className="mr-2">
+                    {removingPost ? (
+                      <PulseLoader
+                        size={5}
+                        color={"grey"}
+                        loading={removingPost}
+                        aria-label="Removing Post"
+                      />
+                    ) : (
+                      "Delete Post"
+                    )}
+                  </div>
                   <PiTrash />
                 </button>
               </div>
@@ -119,7 +101,19 @@ const Post: React.FC = () => {
           <AddPostToCollection postId={post._id} />
           {openUpdatePostModal && <UpdatePost post={post} />}
         </>
+      ) : (
+        <div className="flex items-center text-base">
+          <p className="mr-2">Loading Post</p>
+          <PulseLoader
+            size={4}
+            color={"grey"}
+            loading={fetchingPost}
+            aria-label="Fetching Post"
+          />
+        </div>
       )}
+      {fetchingPostError && <div>{fetchingPostError}</div>}
+      {removingPostError && <div>{removingPostError}</div>}
     </main>
   );
 };
