@@ -1,5 +1,6 @@
 import SubCategory from "../models/subCategory.js";
 import Category from "../models/category.js";
+import Collection from "../models/collection.js";
 import Post from "../models/post.js";
 import User from "../models/user.js";
 import mongoose from "mongoose";
@@ -126,13 +127,6 @@ export const deletePost = async (req, res) => {
     );
     await SubCategory.findByIdAndUpdate(
       subCategoryId,
-      {
-        $pull: { posts: _id },
-      },
-      { new: true }
-    );
-    await User.findByIdAndUpdate(
-      creatorId,
       {
         $pull: { posts: _id },
       },

@@ -15,6 +15,14 @@ export const getCategories = async (_, res) => {
       })
       .exec();
 
+    // const user = await User.findById();
+    // const existingPosts = await Post.find({}).distinct("_id");
+    // const updatedUser = await User.findOneAndUpdate(
+    //   { _id: user._id },
+    //   { $pull: { posts: { $nin: existingPosts } } },
+    //   { new: true }
+    // );
+
     res.status(200).send({ success: true, data: categories });
   } catch (error) {
     res.status(404).send({ success: false, message: error.message });
@@ -62,9 +70,11 @@ export const deleteCategory = async (req, res) => {
     await SubCategory.deleteMany({
       _id: { $in: deletedCategory.subCategories },
     });
-    await Post.deleteMany({
-      _id: { $in: deletedCategory.posts },
-    });
+
+    // Remove post from Collection.posts and User.posts
+    for (let post of deletedCategory.posts) {
+      await Post.findByIdAndRemove(post);
+    }
 
     res.status(200).send({ success: true, message: "Category Deleted" });
   } catch (e) {

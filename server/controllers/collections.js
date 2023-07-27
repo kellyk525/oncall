@@ -122,11 +122,16 @@ export const addPostToCollection = async (req, res) => {
       { $push: { posts: postId } }
     );
 
-    const addedPost = await Post.findOne({ _id: postId });
+    // Add reference of new collectionId in Post.collections
+    const newPost = await Post.findOneAndUpdate(
+      { _id: postId },
+      { $push: { collections: collectionId } }
+    );
+
     res.status(200).send({
       success: true,
       message: `Post added to collection`,
-      data: addedPost,
+      data: newPost,
     });
   } catch (e) {
     res.status(500).send({ success: false, message: e.message });
@@ -153,6 +158,12 @@ export const removePostFromCollection = async (req, res) => {
     const updatedCollection = await Collection.findOneAndUpdate(
       { _id: collectionId },
       { $pull: { posts: postId } }
+    );
+
+    // remove reference of collectionId in Post.collections
+    await Post.findOneAndUpdate(
+      { _id: postId },
+      { $pull: { collections: updatedCollection._id } }
     );
 
     res.status(200).send({
@@ -184,7 +195,7 @@ export const deleteCollection = async (req, res) => {
   try {
     const deletedCollection = await Collection.findByIdAndRemove(collectionId);
 
-    // Remove collection from user collections
+    // remove deleted collectionId from User.collections
     await User.findOneAndUpdate(
       { _id: creatorId },
       { $pull: { collections: deletedCollection._id } }

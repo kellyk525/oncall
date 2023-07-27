@@ -60,23 +60,39 @@ export const addSubCategory = async (req, res) => {
 };
 
 export const deleteSubCategory = async (req, res) => {
-  const { subCateogoryId } = req.params;
+  const { id: subCategoryId } = req.params;
   const { categoryId } = req.body;
 
-  if (!mongoose.Types.ObjectId.isValid(subCateogoryId))
+  if (!mongoose.Types.ObjectId.isValid(subCategoryId))
     return res
       .status(404)
       .send({ success: false, message: "No sub-category with that id" });
 
   try {
-    const deleted = await SubCategory.findByIdAndRemove(subCateogoryId);
+    const deletedSubCategory = await SubCategory.findByIdAndRemove(
+      subCategoryId
+    );
 
     // delete posts that match ids in deleted.posts
-    await Post.deleteMany({ _id: { $in: deleted.posts } });
-    // update the subCategories array in respective category
+    // await Post.deleteMany({ _id: { $in: deleted.posts } });
+
+    // remove posts that were under SubCategory.posts
+    // remove deleted postId references in multiple Collection.posts and User.posts
+    for (let post of deletedSubCategory.posts) {
+      await Post.findByIdAndRemove(post);
+    }
+
+    // remove deleted subCategoryId from Category.subCategories
+    // remove deleted postIds from Category.posts as well
     await Category.findOneAndUpdate(
       { _id: categoryId },
-      { $pull: { subCategories: subCateogoryId } }
+      {
+        $pull: {
+          subCategories: deletedSubCategory.id,
+          posts: { $in: deletedSubCategory.posts },
+        },
+      },
+      { new: true }
     );
 
     res.status(200).send({ success: true, message: "Sub-category Deleted" });
