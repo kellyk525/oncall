@@ -649,6 +649,7 @@ module.exports = {
       min: "min-content",
       max: "max-content",
       fit: "fit-content",
+      modal: "40rem",
     }),
     maxWidth: ({ theme, breakpoints }) => ({
       none: "none",

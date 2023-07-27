@@ -5,7 +5,6 @@ export const getPostsDefaultState = () => {
     openUpdatePostModal: false,
     categoryId: null,
     subCategoryId: null,
-    categories: [],
   };
 };
 
@@ -30,20 +29,6 @@ export const postsReducer = (state: PostsState, action: Action): PostsState => {
       return {
         ...state,
         subCategoryId: action.payload,
-      };
-    case ActionTypes.FETCH_CATEGORIES:
-      return {
-        ...state,
-        categories: action.payload,
-      };
-    case ActionTypes.DELETE_CATEGORY:
-      const deletedCategoryId = action.payload;
-      const filteredCategories = state.categories.filter(
-        (category) => category._id != deletedCategoryId
-      );
-      return {
-        ...state,
-        categories: filteredCategories,
       };
     default:
       return getPostsDefaultState();

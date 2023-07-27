@@ -8,7 +8,6 @@ export type PostsState = {
   openUpdatePostModal: boolean;
   categoryId: string | null;
   subCategoryId: string | null;
-  categories: Category[];
 };
 
 export enum ActionTypes {
@@ -18,8 +17,6 @@ export enum ActionTypes {
   CLOSE_UPDATE_POST_MODAL = "CLOSE_UPDATE_POST_MODAL",
   SET_SELECTED_CATEGORY = "SET_SELECTED_CATEGORY",
   SET_SELECTED_SUB_CATEGORY = "SET_SELECTED_SUB_CATEGORY",
-  FETCH_CATEGORIES = "FETCH_CATEGORIES",
-  DELETE_CATEGORY = "DELETE_CATEGORY",
 }
 
 export interface ActionA {
@@ -52,22 +49,4 @@ export interface ActionF {
   payload: string;
 }
 
-export interface ActionG {
-  type: ActionTypes.FETCH_CATEGORIES;
-  payload: Category[];
-}
-
-export interface ActionH {
-  type: ActionTypes.DELETE_CATEGORY;
-  payload: string;
-}
-
-export type Action =
-  | ActionA
-  | ActionB
-  | ActionC
-  | ActionD
-  | ActionE
-  | ActionF
-  | ActionG
-  | ActionH;
+export type Action = ActionA | ActionB | ActionC | ActionD | ActionE | ActionF;

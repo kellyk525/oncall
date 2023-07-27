@@ -11,7 +11,7 @@ type RequestBody = {
   [key: string]: any;
 };
 
-class HTTPRequest {
+export class HTTPRequest {
   url: string;
   headers: Headers;
   error: string | null;

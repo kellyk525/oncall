@@ -11,6 +11,7 @@ export type Post = {
 export type SubCategory = {
   _id: string;
   subCategory: string;
+  categoryId: string;
   posts: Post[];
 };
 
