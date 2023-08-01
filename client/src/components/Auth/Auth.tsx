@@ -42,7 +42,7 @@ const Auth: React.FC = () => {
       signinUser(ActionTypes.AUTH, savedUserData);
       navigate("/");
     } catch (e) {
-      console.log(e);
+      console.log("error", e);
     }
   };
 
