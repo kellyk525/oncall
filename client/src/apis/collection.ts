@@ -31,7 +31,12 @@ export class HTTPRequest {
   };
 
   sendRequest = async () => {
-    let requestResponse = null;
+    let requestResponse: { [key: string]: any } = {
+      success: false,
+      message: "Response N/A",
+      data: "N/A",
+    };
+
     try {
       const response = await fetch(this.url, {
         method: this.method,
