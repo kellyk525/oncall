@@ -23,3 +23,23 @@ pre {
 	line-height: 20px;
   font-weight: 500;
 }
+
+.quill > .ql-toolbar:first-child {
+  display: none !important;
+}
+
+#ql-editor h3:after {
+  border-bottom: 1px solid #d9dce1;
+  content: ' ';
+  display: block;
+  height: 8px;
+  margin-bottom: 6px;
+}
+
+#quill-editor h3:after {
+  border-bottom: 1px solid #d9dce1;
+  content: ' ';
+  display: block;
+  height: 8px;
+  margin-bottom: 6px;
+}
