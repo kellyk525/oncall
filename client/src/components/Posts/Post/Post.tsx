@@ -52,10 +52,10 @@ const Post: React.FC = () => {
   }, [post]);
 
   return (
-    <main className="	ml-60 bg-background text-base p-6 max-w-5xl min-h-screen font-text2">
+    <main className="	ml-60 bg-background text-base p-6 max-w-5xl min-h-screen font-text1">
       {!fetchingPost && post ? (
         <>
-          <div className="mb-10 flex items-center justify-between">
+          <div className="mb-10 px-2 flex items-center justify-between">
             <div className="flex items-center">
               <div className="font-medium mr-4">{post.title}</div>
               <div className="text-sm">{moment(post.createdAt).fromNow()}</div>

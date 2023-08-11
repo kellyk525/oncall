@@ -28,7 +28,11 @@ pre {
   display: none !important;
 } */
 
-#ql-editor h3:after {
+.ql-snow .ql-editor {
+  padding: 8px;
+}
+
+.ql-editor h3:after {
   border-bottom: 1px solid #d9dce1;
   content: ' ';
   display: block;
@@ -42,4 +46,11 @@ pre {
   display: block;
   height: 8px;
   margin-bottom: 6px;
+}
+
+.ql-code-block-container {
+  font-family: 'MonoLisa', 'Menlo', 'Monaco', "Courier New", monospace !important;
+	font-size: 12px;
+	line-height: 20px;
+  font-weight: 500;
 }
