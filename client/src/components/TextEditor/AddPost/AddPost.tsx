@@ -2,19 +2,25 @@ import React, {
   ChangeEvent,
   FormEvent,
   useState,
+  useEffect,
   useRef,
   useMemo,
   useContext,
 } from "react";
 import PulseLoader from "react-spinners/PulseLoader";
-import ReactQuill from "react-quill";
-import hljs from "highlight.js";
-import "react-quill/dist/quill.snow.css";
-import "highlight.js/styles/obsidian.css";
+import ReactQuill, { Quill } from "react-quill-with-table";
+import QuillBetterTable from "quill-better-table";
+import "shared/quill/katex";
 
 import Categories from "components/Categories/Categories";
 import { GlobalContext } from "store/globalContext";
 import { TOOLBAR_OPTIONS, formats } from "shared/utils/quillConfigs";
+import "react-quill-with-table/dist/quill.snow.css";
+import "quill-better-table/dist/quill-better-table.css";
+import "katex/dist/katex.min.css";
+import "highlight.js/styles/obsidian.css";
+
+Quill.register({ "modules/better-table": QuillBetterTable });
 
 const AddPost: React.FC = () => {
   const [postInfo, setPostInfo] = useState<{
@@ -33,7 +39,6 @@ const AddPost: React.FC = () => {
     addingPost,
     addingPostError,
   } = useContext(GlobalContext);
-  hljs.configure({ languages: ["javascript", "typescript", "html"] });
 
   const handleTitleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const newTitle = e.target.value;
@@ -54,15 +59,42 @@ const AddPost: React.FC = () => {
     });
   };
 
+  const insertTable = () => {
+    if (quillRef.current) {
+      const editor = quillRef.current.getEditor();
+      const tableModule = editor.getModule("better-table");
+      tableModule.insertTable(3, 3);
+    }
+  };
+
+  useEffect(() => {
+    if (quillRef.current) {
+      const editor = quillRef.current.getEditor();
+      const toolbar = editor.getModule("toolbar");
+      toolbar.addHandler("table", () => {
+        insertTable();
+      });
+    }
+  }, []);
+
   const handlePostCreation = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     // const form = e.target as HTMLFormElement;
     // const formData = new FormData(form);
+
+    // Remove all hljs language selector options
+    document.querySelectorAll("select.ql-ui").forEach((el) => {
+      el.parentNode?.removeChild(el);
+    });
+    // Get quill editor inner html
+    const editor = quillRef?.current?.getEditor();
+    const innerHTML = (editor?.root.innerHTML as string) || "";
+
     addPost(
       categoryId as string,
       subCategoryId as string,
       postInfo.title,
-      postInfo.description,
+      innerHTML,
       userData?._id as string
     );
   };
@@ -114,14 +146,25 @@ const AddPost: React.FC = () => {
 
   const modules = useMemo(
     () => ({
+      syntax: true,
+      table: false,
+      "better-table": {
+        operationMenu: {
+          items: {
+            unmergeCells: {
+              text: "Another unmerge cells name",
+            },
+          },
+        },
+      },
+      keyboard: {
+        bindings: QuillBetterTable.keyboardBindings,
+      },
       toolbar: {
         container: TOOLBAR_OPTIONS,
         handlers: {
           image: imageHandler,
         },
-      },
-      syntax: {
-        highlight: (text: string) => hljs.highlightAuto(text).value,
       },
     }),
     []
@@ -151,7 +194,6 @@ const AddPost: React.FC = () => {
             id="quill-editor"
             ref={quillRef}
             theme="snow"
-            value={postInfo.description}
             onChange={handleDescriptionChange}
             placeholder="Write something awesome..."
             className="mt-3"

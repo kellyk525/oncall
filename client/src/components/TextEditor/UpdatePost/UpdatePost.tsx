@@ -2,19 +2,27 @@ import React, {
   useContext,
   useRef,
   useState,
+  useEffect,
   useMemo,
   ChangeEvent,
   FormEvent,
 } from "react";
 import PulseLoader from "react-spinners/PulseLoader";
 import { IoIosCloseCircleOutline } from "react-icons/io";
-import ReactQuill from "react-quill";
-import "react-quill/dist/quill.snow.css";
+import ReactQuill, { Quill } from "react-quill-with-table";
+import QuillBetterTable from "quill-better-table";
+import "shared/quill/katex";
 
 import { Post } from "shared/types/appTypes";
 import { ActionTypes } from "shared/types/storeTypes";
 import { TOOLBAR_OPTIONS, formats } from "shared/utils/quillConfigs";
 import { GlobalContext } from "store/globalContext";
+import "react-quill-with-table/dist/quill.snow.css";
+import "quill-better-table/dist/quill-better-table.css";
+import "katex/dist/katex.min.css";
+import "highlight.js/styles/obsidian.css";
+
+Quill.register({ "modules/better-table": QuillBetterTable });
 
 const UpdatePostModal: React.FC<{ children: React.ReactNode }> = ({
   children,
@@ -69,12 +77,41 @@ const UpdatePost: React.FC<{ post: Post }> = ({ post }) => {
     });
   };
 
+  const insertTable = () => {
+    if (quillRef.current) {
+      const editor = quillRef.current.getEditor();
+      const tableModule = editor.getModule("better-table");
+      tableModule.insertTable(3, 3);
+    }
+  };
+
+  useEffect(() => {
+    if (quillRef.current) {
+      const editor = quillRef.current.getEditor();
+      const toolbar = editor.getModule("toolbar");
+      toolbar.addHandler("table", () => {
+        insertTable();
+      });
+
+      editor.root.innerHTML = post.description as string;
+    }
+  }, []);
+
   const handlePostUpdate = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    // Remove all hljs language selector options
+    document.querySelectorAll("select.ql-ui").forEach((el) => {
+      el.parentNode?.removeChild(el);
+    });
+    // Get quill editor inner html
+    const editor = quillRef?.current?.getEditor();
+    const innerHTML = (editor?.root.innerHTML as string) || "";
+
     const updatedPost = {
       ...post,
       title: postInfo.title,
-      description: postInfo.description,
+      description: innerHTML,
     };
 
     updatePost(updatedPost, userData?._id as string);
@@ -82,6 +119,20 @@ const UpdatePost: React.FC<{ post: Post }> = ({ post }) => {
 
   const modules = useMemo(
     () => ({
+      syntax: true,
+      table: false,
+      "better-table": {
+        operationMenu: {
+          items: {
+            unmergeCells: {
+              text: "Another unmerge cells name",
+            },
+          },
+        },
+      },
+      keyboard: {
+        bindings: QuillBetterTable.keyboardBindings,
+      },
       toolbar: {
         container: TOOLBAR_OPTIONS,
       },
@@ -118,7 +169,6 @@ const UpdatePost: React.FC<{ post: Post }> = ({ post }) => {
           id="quill-editor"
           ref={quillRef}
           theme="snow"
-          value={postInfo.description as string}
           onChange={handleDescriptionChange}
           placeholder="Write something awesome..."
           modules={modules}
