@@ -3,6 +3,7 @@ import bodyParser from "body-parser";
 import mongoose from "mongoose";
 import cors from "cors";
 import dotenv from "dotenv";
+import path from "path";
 
 import s3Routes from "./routes/s3.js";
 import postRoutes from "./routes/posts.js";
@@ -29,6 +30,17 @@ app.use("/collections", collectionRoutes);
 // https://www.mongodb.com/cloud/atlas
 // host our db on their cloud
 const PORT = process.env.PORT || 8000;
+const __dirname = path.resolve();
+
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(__dirname, "../client/build")));
+
+  app.get("*", (req, res) => {
+    res.sendFile(
+      path.resolve(__dirname, "..", "client", "build", "index.html")
+    );
+  });
+}
 
 mongoose
   .connect(process.env.CONNECTION_URL, {
@@ -38,4 +50,4 @@ mongoose
   .then(() =>
     app.listen(PORT, () => console.log(`Server running on port: ${PORT}`))
   )
-  .catch((error) => console.log(error.message));
+  .catch((error) => console.log("db connection error:", error.message));
